@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.rasstek.gestionproduits.mesModels.Produit;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
@@ -19,7 +20,7 @@ public class ListProduitsServlet extends HttpServlet {
     public void init(){
         listeproduits= new ArrayList<Produit>(){
             {
-                add(new Produit(1,"Stylo",10.99));
+                add(new Produit(1,"Stylo Mont Blanc",110.99));
                 add(new Produit(2,"Crayon",2.50));
                 add(new Produit(3,"Cahier",4.99));
                 add(new Produit(4,"Efface",5.00));
@@ -36,7 +37,7 @@ public class ListProduitsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)//methode qui va etre appeler par doGet et doPost
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -48,7 +49,7 @@ public class ListProduitsServlet extends HttpServlet {
             // supprimer le produit trouvé
             this.listeproduits.remove(produit);
         }
-
+//Affiche du resultat de la reponse au client
         try ( PrintWriter out = response.getWriter()) {
 
             out.println("<!DOCTYPE html>");
@@ -60,11 +61,13 @@ public class ListProduitsServlet extends HttpServlet {
             out.println("<h1>La liste des produits</h1>");
             out.println("<table>");
             out.println("<tr><th>Numéro</th><th>Description</th><th>Prix</th><th>Commande</th>");
-            for(Produit p:listeproduits){
+            for(Produit p:listeproduits){/*Boucle pour afficher la liste des produits*/
                 out.println(String.format("<tr><td>%d</td><td>%s</td><td>%4.2f</td><td>"
-                                + "<a href=/TestServletJSP/ProduitServlet?numero=%d >Supprimer</a></td>",
+                                + "<a href=/GestionProduits/listproduits?numero=%d >Supprimer</a></td>",
                         p.getNumero(),p.getDescription(),p.getPrix(),p.getNumero()));
             }
+            out.println(//retourner a l'index
+                    "<tr><td colspan=4><a href=/GestionProduits/index.jsp >Retourner à l'index</a></td></tr>");
             out.println("<table>");
             out.println("</body>");
             out.println("</html>");
@@ -79,7 +82,7 @@ public class ListProduitsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
