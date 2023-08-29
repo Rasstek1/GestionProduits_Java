@@ -8,6 +8,14 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="listproduits">Allez a la liste de produits</a>
+
+
+<a href="<%=request.getContextPath()%>/listproduits">Allez a la liste de produits</a>
+
+
+<img src="<%=request.getContextPath()%>/res/image/R.jpg" alt="produit" style="width:100px;">
+
+</br>
+
 </body>
 </html>

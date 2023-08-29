@@ -49,30 +49,14 @@ public class ListProduitsServlet extends HttpServlet {
             // supprimer le produit trouvé
             this.listeproduits.remove(produit);
         }
-//Affiche du resultat de la reponse au client
-        try ( PrintWriter out = response.getWriter()) {
+        //ajouter la liste a l<objet request
+        request.setAttribute("listeproduits", this.listeproduits);
+//rediriger vers las vue
+        String destination = "listProduits.jsp";//creer une variable destination qui va contenir le chemin de la vue
+        request.getRequestDispatcher(destination).forward(request, response);
 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Gest Produit</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>La liste des produits</h1>");
-            out.println("<table>");
-            out.println("<tr><th>Numéro</th><th>Description</th><th>Prix</th><th>Commande</th>");
-            for(Produit p:listeproduits){/*Boucle pour afficher la liste des produits*/
-                out.println(String.format("<tr><td>%d</td><td>%s</td><td>%4.2f</td><td>"
-                                + "<a href=/GestionProduits/listproduits?numero=%d >Supprimer</a></td>",
-                        p.getNumero(),p.getDescription(),p.getPrix(),p.getNumero()));
-            }
-            out.println(//retourner a l'index
-                    "<tr><td colspan=4><a href=/GestionProduits/index.jsp >Retourner à l'index</a></td></tr>");
-            out.println("<table>");
-            out.println("</body>");
-            out.println("</html>");
 
-        }
+
     }
     /**
      * Handles the HTTP <code>GET</code> method.
